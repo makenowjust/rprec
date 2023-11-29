@@ -1,0 +1,7 @@
+module RPrec
+  class ArrayStream[T] < Stream[T]
+    def initialize: (Array[Token[T]]) -> void
+    @tokens: Array[Token[T]]
+    @index: Integer
+  end
+end

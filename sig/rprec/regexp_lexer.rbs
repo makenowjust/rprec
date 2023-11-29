@@ -1,0 +1,19 @@
+module RPrec
+  class RegexpLexer[T]
+    def initialize:
+      (skip: Regexp, pattern: Regexp) { (MatchData) -> (String | [String, T]) }
+      -> void
+    def lex: (String) -> Stream[T]
+    attr_reader skip: Regexp
+    attr_reader pattern: Regexp
+    attr_reader block: ^(MatchData) -> (String | [String, T])
+  end
+
+  class RegexpStream[T] < Stream[T]
+    def initialize: (RegexpLexer[T], String) -> void
+    @lexer: RegexpLexer[T]
+    @source: String
+    @offset: Integer
+    @current: Token[T]
+  end
+end

@@ -1,0 +1,9 @@
+module RPrec
+  class Token[T]
+    def initialize: (String, ?(T | nil), ?loc: Range[Integer]?) -> void
+                  
+    attr_reader type: String
+    attr_reader value: T?
+    attr_reader loc: Range[Integer]?
+  end
+end

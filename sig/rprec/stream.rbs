@@ -1,0 +1,11 @@
+module RPrec
+  class Stream[T]
+    def initialize: () -> void
+    def current: () -> Token[T]
+    def next: () -> void
+    def eof?: () -> bool
+    def expected: (Array[String]) -> void
+    def unexpected: () -> bot
+    @expected: Array[String]
+  end
+end

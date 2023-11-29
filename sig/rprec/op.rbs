@@ -1,0 +1,15 @@
+module RPrec
+  type op_type =
+    :prefix | :postfix | :non_assoc_prefix | :non_assoc_postfix | :closed |
+    :left_assoc | :right_assoc | :non_assoc
+
+  class Op[T, R < Object]
+    def initialize:
+      (op_type, String, Array[String | Symbol], ^(*(Token[T] | R)) -> R) -> void
+    attr_reader type: op_type
+    attr_reader key: String
+    attr_reader parts: Array[String | Symbol]
+    def build: (*(Token[T] | R)) -> R
+    @build: ^(*(Token[T] | R)) -> R
+  end
+end

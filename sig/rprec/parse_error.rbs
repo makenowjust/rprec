@@ -1,0 +1,6 @@
+module RPrec
+  class ParseError < Error
+    def initialize: (String, ?loc: Range[Integer]?) -> void
+    attr_reader loc: Range[Integer]?
+  end
+end

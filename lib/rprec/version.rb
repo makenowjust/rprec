@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
-module Rprec
-  VERSION = "0.1.0"
+module RPrec
+
+  # The version.
+  VERSION = "1.0.0"
 end

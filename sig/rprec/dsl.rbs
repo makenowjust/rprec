@@ -1,0 +1,26 @@
+module RPrec
+  class DSL[T, R < Object]
+    def self.build: [T, R < Object] (?Symbol) { (DSL[T, R]) [self: DSL[T, R]] -> void } -> Grammar[T, R]
+    def initialize: () -> void
+    attr_reader precs: Hash[Symbol, Prec[T, R]]
+    def prec:
+      (Symbol | Hash[Symbol, Symbol | Array[Symbol]]) ?{ (PrecDSL[T, R]) [self: PrecDSL[T, R]] -> void }
+      -> void
+
+    class PrecDSL[T, R < Object]
+      def self.build:
+        [T, R < Object] (Symbol, Array[Symbol]) ?{ (PrecDSL[T, R]) [self: PrecDSL[T, R]] -> void }
+        -> Prec[T, R]
+      def initialize: () -> void
+      attr_reader ops: Array[Op[T, R]]
+      def prefix: (String, *(String | Symbol)) { (*(Token[T] | R)) -> R } -> void
+      def postfix: (String, *(String | Symbol)) { (*(Token[T] | R)) -> R } -> void
+      def non_assoc_prefix: (String, *(String | Symbol)) { (*(Token[T] | R)) -> R } -> void
+      def non_assoc_postfix: (String, *(String | Symbol)) { (*(Token[T] | R)) -> R } -> void
+      def closed: (String, *(String | Symbol)) { (*(Token[T] | R)) -> R } -> void
+      def left_assoc: (String, *(String | Symbol)) { (*(Token[T] | R)) -> R } -> void
+      def right_assoc: (String, *(String | Symbol)) { (*(Token[T] | R)) -> R } -> void
+      def non_assoc: (String, *(String | Symbol)) { (*(Token[T] | R)) -> R } -> void
+    end
+  end
+end

@@ -1,0 +1,9 @@
+module RPrec
+  class TestDSL < Minitest::Test
+    type expr = Array[untyped]
+
+    def simple_expr_grammar: () -> Grammar[Integer, expr]
+    def lexer: () -> RegexpLexer[Integer]                           
+    def parse_simple_expr: (String) -> expr
+  end
+end

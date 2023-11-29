@@ -1,0 +1,21 @@
+module RPrec
+  class Prec[T, R < Object]
+    def initialize: (Symbol, Array[Symbol], Array[Op[T, R]]) -> void
+    attr_reader name: Symbol
+    attr_reader succs: Array[Symbol]
+    attr_reader ops: Array[Op[T, R]]
+    def setup: (Grammar[T, R]) -> void
+    def parse: (Grammar[T, R], Stream[T]) -> R?
+    private def parse_prefix_and_right_assoc:
+      (Grammar[T, R], Stream[T], Array[[Op[T, R], Array[Token[T] | R]]]) -> R
+    private def parse_postfix_and_left_assoc:
+      (Grammar[T, R], Stream[T], R) -> R
+    @prefix_table: Hash[String, Op[T, R]]
+    @postfix_table: Hash[String, Op[T, R]]
+    @all_prefix_keys: Array[String]
+    @all_postfix_keys: Array[String]
+    @prefix_keys: Array[String]
+    @right_assoc_keys: Array[String]
+    @postfix_and_left_assoc_keys: Array[String]
+  end
+end

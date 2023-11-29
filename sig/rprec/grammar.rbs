@@ -1,0 +1,13 @@
+module RPrec
+  class Grammar[T, R < Object]
+    def initialize: (Symbol, Hash[Symbol, Prec[T, R]]) -> void
+    def []: (Symbol) -> Prec[T, R]
+    def setup: (?Array[Symbol]) -> void
+    def parse: (Stream[T], ?check_eof: bool) -> R
+    def parse_prec: (Symbol, Stream[T]) -> R?
+    def parse_precs: (Array[Symbol], Stream[T]) -> R
+    def parse_parts: (Array[String | Symbol], Stream[T]) -> Array[Token[T] | R]
+    @main: Symbol
+    @precs: Hash[Symbol, Prec[T, R]]
+  end
+end
