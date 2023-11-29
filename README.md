@@ -80,7 +80,7 @@ For the detailed information, please see [the documentation](https://rubydoc.inf
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/MakeNowJust/rprec. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/makenowjust/rprec/blob/main/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at https://github.com/makenowjust/rprec. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/makenowjust/rprec/blob/main/CODE_OF_CONDUCT.md).
 
 ## License
 
