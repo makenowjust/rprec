@@ -23,5 +23,9 @@ jobs:
       with:
         ruby-version: ${{ matrix.ruby }}
         bundler-cache: true
-    - name: Run the default task
-      run: bundle exec rake
+    - name: Run the test
+      run: bundle exec rake test
+    - name: Run the type checker (Steep)
+      run: bundle exec steep check
+    - name: Run the linter (RuboCop)
+      run: bundle exec rubocop
