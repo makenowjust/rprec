@@ -1,5 +1,7 @@
 # RPrec
 
+![Gem](https://img.shields.io/gem/v/rprec?style=for-the-badge&logo=rubygems&color=%23E9573F)
+
 > Operator-precedence parsing implementation in Ruby
 
 ## Usage
