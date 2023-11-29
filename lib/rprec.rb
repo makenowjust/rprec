@@ -45,8 +45,8 @@
 #   end
 #
 #   prec :atom do
-#     closed 'nat' do |nat_tok|
-#       [:nat, nat_tok.value]
+#     closed 'INT' do |int_tok|
+#       [:int, int_tok.value]
 #     end
 #     closed '(', :add_sub, ')' do |lpar_tok, expr, rpar_tok|
 #       [:paren, expr]
@@ -89,15 +89,15 @@
 # ```
 # # A stream for the source `"1 + 2 * 3"`.
 # stream = RPrec::ArrayStream.new([
-#   RPrec::Token.new('nat', 1),
+#   RPrec::Token.new('INT', 1),
 #   RPrec::Token.new('+'),
-#   RPrec::Token.new('nat', 2),
+#   RPrec::Token.new('INT', 2),
 #   RPrec::Token.new('*'),
-#   RPrec::Token.new('nat', 3),
+#   RPrec::Token.new('INT', 3),
 # ])
 #
 # grammar.parse(stream)
-# # => [:add, [:nat, 1], [:mul, [:nat, 2], [:nat, 3]]]
+# # => [:add, [:int, 1], [:mul, [:int, 2], [:int, 3]]]
 # ```
 #
 # ## Limitations

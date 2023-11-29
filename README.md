@@ -9,7 +9,74 @@
 
 ## Usage
 
-<!-- TODO: write here. -->
+Below is a parser for the grammar of simple expressions:
+
+```ruby
+grammar = RPrec::DSL.build do
+  prec :main => :add_sub
+
+  prec :add_sub => :mul_div do
+    left_assoc '+' do |left, op_tok, right|
+      [:add, left, right]
+    end
+    left_assoc '-' do |left, op_tok, right|
+      [:sub, left, right]
+    end
+  end
+
+  prec :mul_div => :unary do
+    left_assoc '*' do |left, op_tok, right|
+      [:mul, left, right]
+    end
+    left_assoc '/' do |left, op_tok, right|
+      [:div, left, right]
+    end
+  end
+
+  prec :unary => :atom do
+    prefix '+' do |op_tok, expr|
+      [:plus, expr]
+    end
+    prefix '-' do |op_tok, expr|
+      [:minus, expr]
+    end
+  end
+
+  prec :atom do
+    closed 'INT' do |int_tok|
+      [:nat, int_tok.value]
+    end
+    closed '(', :add_sub, ')' do |lpar_tok, expr, rpar_tok|
+      [:paren, expr]
+    end
+  end
+end
+```
+
+This can be used via `RegexpLexer`:
+
+```ruby
+lexer = RPrec::RegexpLexer.new(
+  skip: /\s+/,
+  pattern: %r{
+    (?<digits>\d+)|
+    (?<op>[-+*/()])
+  }x
+) do |match|
+  if (value = match[:digits])
+    ['INT', value.to_i]
+  elsif (op = match[:op])
+    op
+  else
+    raise ScriptError, 'Unreachable'
+  end
+end
+
+grammar.parse(lexer.lex('1 + 2 * 3'))
+# => [:add, [:int, 1], [:mul, [:int, 2], [:int, 3]]]
+```
+
+For the detailed information, please see [the documentation](https://rubydoc.info/github/makenowjust/rprec/main/RPrec).
 
 ## Contributing
 
