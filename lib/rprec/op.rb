@@ -23,11 +23,15 @@ module RPrec
     # @return [Array<String, Symbol>]
     attr_reader :parts
 
+    # rubocop:disable Style/ArgumentsForwarding
+
     # @param args [Array<RPrec::Token, Object>]
     # @return [Object]
-    def build(*)
-      @build.call(*)
+    def build(*args)
+      @build.call(*args)
     end
+
+    # rubocop:enable Style/ArgumentsForwarding
 
     # @return [String]
     def inspect

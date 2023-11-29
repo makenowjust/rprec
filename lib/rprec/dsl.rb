@@ -4,12 +4,14 @@ module RPrec
   # `DSL` provides a DSL to construct `RPrec::Grammar` objects.
   # It is also a context of blocks of the `RPrec::DSL.build` method.
   class DSL
+    # rubocop:disable Style/BlockForwarding
+
     # @param main [Symbol]
     # @param block [Proc]
     # @return [RPrec::Grammar]
-    def self.build(main = :main, &)
+    def self.build(main = :main, &block)
       context = DSL.new
-      context.instance_eval(&)
+      context.instance_eval(&block)
       grammar = Grammar.new(main, context.precs)
       grammar.setup
       grammar
@@ -27,8 +29,9 @@ module RPrec
     attr_reader :precs
 
     # @param name_and_succs [Symbol, Hash{Symbol => Symbol}, Hash{Symbol => Array<Symbol>}]
+    # @param block [Proc]
     # @return [void]
-    def prec(name_and_succs, &)
+    def prec(name_and_succs, &block)
       # @type var name: Symbol
       # @type var succs: Array[Symbol]
       name, succs =
@@ -45,8 +48,10 @@ module RPrec
 
       raise ArgumentError, "A prec '#{name}' is already defined" if @precs.include?(name)
 
-      @precs[name] = PrecDSL.build(name, succs, &)
+      @precs[name] = PrecDSL.build(name, succs, &block)
     end
+
+    # rubocop:enable Style/BlockForwarding
 
     # `PrecDSL` is a context of blocks of the `RPrec::DSL#prec` method.
     class PrecDSL
