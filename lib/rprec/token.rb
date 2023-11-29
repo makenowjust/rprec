@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 
 module RPrec
-
   # `Token` is a token.
   class Token
-
     # @param type [String]
     # @param value [Object]
     # @param loc [Range, nil]

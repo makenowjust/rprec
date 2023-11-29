@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 module RPrec
-
   # `Stream` is a token stream.
   #
   # @abstract `current`, `next` and `eof?` must be implemented.
@@ -13,7 +12,7 @@ module RPrec
     # @return [RPrec::Token]
     def current
       raise ScriptError, 'Not implemented'
-    end    
+    end
 
     # @return [void]
     def next
@@ -34,12 +33,10 @@ module RPrec
     # @return [void]
     def unexpected
       token = current
-      if @expected.empty?
-        raise ParseError.new("Unexpected token '#{token.type}'", loc: token.loc)
-      else
-        expected = @expected.sort.map { |tok| "'#{tok}'" }.join(", ")
-        raise ParseError.new("Expected token(s) #{expected}, but the unexpected token '#{token.type}' comes", loc: token.loc)
-      end
+      raise ParseError.new("Unexpected token '#{token.type}'", loc: token.loc) if @expected.empty?
+
+      expected = @expected.sort.map { |tok| "'#{tok}'" }.join(', ')
+      raise ParseError.new("Expected token(s) #{expected}, but the unexpected token '#{token.type}' comes", loc: token.loc)
     end
   end
 end

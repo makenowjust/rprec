@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 
 module RPrec
-
   # `Prec` is an operator precedence.
   class Prec
-
     # @param name [Symbol]
     # @param succs [Array<Symbol>]
     # @param ops [Array<Op>]
@@ -42,14 +40,12 @@ module RPrec
       @ops.each do |op|
         case op.type
         when :prefix, :non_assoc_prefix, :closed
-          if @prefix_table.include?(op.key)
-            raise ArgumentError, "Conflict with the key token '#{op.key}'"
-          end
+          raise ArgumentError, "Conflict with the key token '#{op.key}'" if @prefix_table.include?(op.key)
+
           @prefix_table[op.key] = op
         when :postfix, :non_assoc_postfix, :left_assoc, :right_assoc, :non_assoc
-          if @postfix_table.include?(op.key)
-            raise ArgumentError, "Conflict with the key token '#{op.key}'"
-          end
+          raise ArgumentError, "Conflict with the key token '#{op.key}'" if @postfix_table.include?(op.key)
+
           @postfix_table[op.key] = op
         end
       end
@@ -63,9 +59,9 @@ module RPrec
 
       @all_prefix_keys = @prefix_table.keys
       @all_postfix_keys = @postfix_table.keys
-      @prefix_keys = @prefix_table.filter { |key, op| op.type == :prefix }.keys
-      @right_assoc_keys = @postfix_table.filter { |key, op| op.type == :right_assoc }.keys
-      @postfix_and_left_assoc_keys = @postfix_table.filter { |key, op| op.type == :postfix || op.type == :left_assoc }.keys
+      @prefix_keys = @prefix_table.filter { |_, op| op.type == :prefix }.keys
+      @right_assoc_keys = @postfix_table.filter { |_, op| op.type == :right_assoc }.keys
+      @postfix_and_left_assoc_keys = @postfix_table.filter { |_, op| op.type == :postfix || op.type == :left_assoc }.keys
     end
 
     # @api private
@@ -111,26 +107,26 @@ module RPrec
       when :postfix
         parts = grammar.parse_parts(op.parts, stream)
         node = op.build(node, key_token, *parts)
-        return parse_postfix_and_left_assoc(grammar, stream, node)
+        parse_postfix_and_left_assoc(grammar, stream, node)
 
       when :non_assoc_postfix
         parts = grammar.parse_parts(op.parts, stream)
-        return op.build(node, key_token, *parts)
+        op.build(node, key_token, *parts)
 
       when :left_assoc
         parts = grammar.parse_parts(op.parts, stream)
         right = grammar.parse_precs(@succs, stream)
         node = op.build(node, key_token, *parts, right)
-        return parse_postfix_and_left_assoc(grammar, stream, node)
+        parse_postfix_and_left_assoc(grammar, stream, node)
 
       when :right_assoc
         parts = grammar.parse_parts(op.parts, stream)
-        return parse_prefix_and_right_assoc(grammar, stream, [[op, [node, key_token, *parts]]])
+        parse_prefix_and_right_assoc(grammar, stream, [[op, [node, key_token, *parts]]])
 
       when :non_assoc
         parts = grammar.parse_parts(op.parts, stream)
         right = grammar.parse_precs(@succs, stream)
-        return op.build(node, key_token, *parts, right)
+        op.build(node, key_token, *parts, right)
 
       else raise ScriptError, 'Unreachable'
       end
@@ -145,7 +141,7 @@ module RPrec
       # TODO: this untyped var seems ugly. How to fix it?
       # @type var node: untyped
       node = nil
-      while continue do
+      while continue
         key_token = stream.current
         op = @prefix_table[key_token.type]
         while op.is_a?(Op) && op.type == :prefix
@@ -171,10 +167,10 @@ module RPrec
         end
       end
 
-      stack.reverse_each do |(op, args)|
-        node = op.build(*args, node)
+      stack.reverse_each do |(parsed_op, args)|
+        node = parsed_op.build(*args, node)
       end
-      return node
+      node
     end
 
     # @param grammar [RPrec::Grammar]
@@ -205,15 +201,13 @@ module RPrec
     # @return [String]
     def inspect
       result = "prec #{name.inspect}"
-      unless succs.empty?
-        result << " => #{succs.inspect}"
-      end
+      result << " => #{succs.inspect}" unless succs.empty?
       unless ops.empty?
         result << " do\n"
         ops.each do |op|
           result << "  #{op.inspect}\n"
         end
-        result << "end"
+        result << 'end'
       end
       result
     end

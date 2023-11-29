@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 
 module RPrec
-
   # `Op` is an operator.
   class Op
-
     # @param type [:prefix, :postfix, :non_assoc_prefix, :non_assoc_postfix, :closed, :left_assoc, :right_assoc, :non_assoc]
     # @param key [String]
     # @param parts [Array<String, Symbol>]
@@ -27,8 +25,8 @@ module RPrec
 
     # @param args [Array<RPrec::Token, Object>]
     # @return [Object]
-    def build(*args)
-      @build.call(*args)
+    def build(*)
+      @build.call(*)
     end
 
     # @return [String]

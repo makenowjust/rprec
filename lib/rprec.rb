@@ -124,19 +124,18 @@
 #   - [Operator-precedence parser - Wikipedia](https://en.wikipedia.org/wiki/Operator-precedence_parser)
 #   - [Parsing Mixfix Operators | Springer Link](https://link.springer.com/chapter/10.1007/978-3-642-24452-0_5)
 module RPrec
-
   # `Error` is an error for `RPrec`.
   class Error < StandardError
   end
 end
 
-require_relative "./rprec/array_stream"
-require_relative "./rprec/dsl"
-require_relative "./rprec/grammar"
-require_relative "./rprec/op"
-require_relative "./rprec/parse_error"
-require_relative "./rprec/prec"
-require_relative "./rprec/regexp_lexer"
-require_relative "./rprec/stream"
-require_relative "./rprec/token"
-require_relative "./rprec/version"
+require_relative 'rprec/array_stream'
+require_relative 'rprec/dsl'
+require_relative 'rprec/grammar'
+require_relative 'rprec/op'
+require_relative 'rprec/parse_error'
+require_relative 'rprec/prec'
+require_relative 'rprec/regexp_lexer'
+require_relative 'rprec/stream'
+require_relative 'rprec/token'
+require_relative 'rprec/version'

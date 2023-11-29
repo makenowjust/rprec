@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 
 module RPrec
-
   # `Grammar` is a grammar defined by operator precedences.
   class Grammar
-
     # @param main [Symbol]
     # @param precs [Hash{Symbol => RPrec::Prec}]
     def initialize(main, precs)
@@ -17,6 +15,7 @@ module RPrec
     def [](name)
       prec = @precs[name]
       raise KeyError, "A prec '#{name}' is undefined" unless prec
+
       prec
     end
 
@@ -91,12 +90,12 @@ module RPrec
     # @return [String]
     def inspect
       result = "DSL.build #{@main.inspect} do\n"
-      @precs.each do |(name, prec)|
+      @precs.each do |(_, prec)|
         prec.inspect.lines(chomp: true).each do |line|
           result << "  #{line}\n"
         end
       end
-      result << "end"
+      result << 'end'
       result
     end
   end

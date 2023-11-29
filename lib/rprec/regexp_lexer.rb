@@ -1,12 +1,10 @@
 # frozen_string_literal: true
 
-require_relative './stream'
+require_relative 'stream'
 
 module RPrec
-
   # `RegexpLexer` is a lexer using regexp patterns.
   class RegexpLexer
-
     # @param skip [Regexp]
     # @param pattern [Regexp]
     # @param block [Proc]
@@ -36,7 +34,6 @@ module RPrec
   #
   # @api private
   class RegexpStream < Stream
-
     # @param lexer [RPrec::Lexer]
     # @param source [String]
     def initialize(lexer, source)
@@ -48,9 +45,7 @@ module RPrec
     end
 
     # @return [RPrec::Token]
-    def current
-      @current
-    end    
+    attr_reader :current
 
     # @return [void]
     def next
@@ -65,9 +60,7 @@ module RPrec
       end
 
       match = @source.match(@lexer.pattern, @offset)
-      unless match
-        raise ParseError.new("Unexpected character: #{@source[@offset].inspect}", loc: @offset...@offset+1)
-      end
+      raise ParseError.new("Unexpected character: #{@source[@offset].inspect}", loc: @offset...@offset + 1) unless match
 
       type_and_value = @lexer.block.call(match)
       type, value =
@@ -76,7 +69,7 @@ module RPrec
         else
           [type_and_value, nil]
         end
-      loc = @offset...@offset+match.to_s.size
+      loc = @offset...@offset + match.to_s.size
       @offset += match.to_s.size
       @current = Token.new(type, value, loc:)
     end

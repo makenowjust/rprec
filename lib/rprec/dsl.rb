@@ -1,17 +1,15 @@
 # frozen_string_literal: true
 
 module RPrec
-
   # `DSL` provides a DSL to construct `RPrec::Grammar` objects.
   # It is also a context of blocks of the `RPrec::DSL.build` method.
   class DSL
-
     # @param main [Symbol]
     # @param block [Proc]
     # @return [RPrec::Grammar]
-    def self.build(main = :main, &block)
+    def self.build(main = :main, &)
       context = DSL.new
-      context.instance_eval(&block)
+      context.instance_eval(&)
       grammar = Grammar.new(main, context.precs)
       grammar.setup
       grammar
@@ -30,7 +28,7 @@ module RPrec
 
     # @param name_and_succs [Symbol, Hash{Symbol => Symbol}, Hash{Symbol => Array<Symbol>}]
     # @return [void]
-    def prec(name_and_succs, &block)
+    def prec(name_and_succs, &)
       # @type var name: Symbol
       # @type var succs: Array[Symbol]
       name, succs =
@@ -39,21 +37,19 @@ module RPrec
           if name_and_succs.size != 1 || !name_first || !succs_first
             raise ArgumentError, '`prec` should be `prec name => succs` form'
           end
+
           [name_first, succs_first.is_a?(Array) ? succs_first : [succs_first]]
         else
           [name_and_succs, []]
         end
 
-      if @precs.include?(name)
-        raise ArgumentError, "A prec '#{name}' is already defined"
-      end
+      raise ArgumentError, "A prec '#{name}' is already defined" if @precs.include?(name)
 
-      @precs[name] = PrecDSL.build(name, succs, &block)
+      @precs[name] = PrecDSL.build(name, succs, &)
     end
 
     # `PrecDSL` is a context of blocks of the `RPrec::DSL#prec` method.
     class PrecDSL
-
       # @api private
       # @param name [Symbol]
       # @param succs [Array<Symbol>]

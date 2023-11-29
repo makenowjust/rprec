@@ -1,0 +1,31 @@
+require:
+  - rubocop-minitest
+  - rubocop-rake
+
+AllCops:
+  NewCops: enable
+  TargetRubyVersion: 3.2
+
+Metrics/AbcSize:
+  Max: 50
+
+Metrics/BlockLength:
+  Max: 39
+
+Metrics/ClassLength:
+  Max: 157
+
+Metrics/CyclomaticComplexity:
+  Max: 14
+
+Metrics/MethodLength:
+  Max: 49
+
+Metrics/PerceivedComplexity:
+  Max: 13
+
+Layout/LineLength:
+  Max: 125
+
+Style/AccessModifierDeclarations:
+  EnforcedStyle: inline
