@@ -4,7 +4,7 @@ module RPrec
   # `DSL` provides a DSL to construct `RPrec::Grammar` objects.
   # It is also a context of blocks of the `RPrec::DSL.build` method.
   class DSL
-    # rubocop:disable Style/BlockForwarding
+    # rubocop:disable Naming/BlockForwarding
 
     # @param main [Symbol]
     # @param block [Proc]
@@ -51,7 +51,7 @@ module RPrec
       @precs[name] = PrecDSL.build(name, succs, &block)
     end
 
-    # rubocop:enable Style/BlockForwarding
+    # rubocop:enable Naming/BlockForwarding
 
     # `PrecDSL` is a context of blocks of the `RPrec::DSL#prec` method.
     class PrecDSL
