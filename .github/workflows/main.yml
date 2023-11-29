@@ -25,7 +25,9 @@ jobs:
         bundler-cache: true
     - name: Run the test
       run: bundle exec rake test
+    - name: Set up RBS collection
+      run: bundle exec rbs collection install
     - name: Run the type checker (Steep)
       run: bundle exec steep check
-    - name: Run the linter (RuboCop)
+    - name: Run the linter (Rubocop)
       run: bundle exec rubocop
